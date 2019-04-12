@@ -22,3 +22,15 @@ $router->post(
         'uses' => 'AuthController@authenticate'
     ]
 );
+
+
+$router->group(
+    ['middleware' => 'jwt.auth'],
+    function() use ($router) {
+        $router->get('users',
+            [
+                'uses' => 'UserController@get_users'
+            ]
+        );
+    }
+);

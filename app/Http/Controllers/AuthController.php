@@ -1,12 +1,19 @@
 <?php
 namespace App\Http\Controllers;
+
 use Validator;
-use App\User;
+use App\Models\User;
 use Firebase\JWT\JWT;
 use Illuminate\Http\Request;
 use Firebase\JWT\ExpiredException;
 use Illuminate\Support\Facades\Hash;
 use Laravel\Lumen\Routing\Controller as BaseController;
+
+
+/**
+ * Class AuthController
+ * @package App\Http\Controllers
+ */
 class AuthController extends BaseController
 {
     /**
@@ -24,10 +31,11 @@ class AuthController extends BaseController
     public function __construct(Request $request) {
         $this->request = $request;
     }
+
     /**
      * Create a new token.
      *
-     * @param  \App\User   $user
+     * @param User $user
      * @return string
      */
     protected function jwt(User $user) {
@@ -42,11 +50,13 @@ class AuthController extends BaseController
         // be used to decode the token in the future.
         return JWT::encode($payload, env('JWT_SECRET'));
     }
+
     /**
      * Authenticate a user and return the token if the provided credentials are correct.
      *
-     * @param  \App\User   $user
-     * @return mixed
+     * @param User $user
+     * @return \Illuminate\Http\JsonResponse
+     * @throws \Illuminate\Validation\ValidationException
      */
     public function authenticate(User $user) {
         $this->validate($this->request, [

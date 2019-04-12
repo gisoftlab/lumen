@@ -3,6 +3,9 @@
 ## Install vendoes
 composer install
 
+## Permissions 
+sudo chmod -R a+rwX storage/logs
+
 ## setup configuration files
 cp .env.example .env
 APP_KEY= yourOwnApiLey
