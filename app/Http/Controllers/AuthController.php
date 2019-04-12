@@ -11,8 +11,9 @@ use Laravel\Lumen\Routing\Controller as BaseController;
 
 
 /**
- * Class AuthController
- * @package App\Http\Controllers
+ * @group Auth management
+ *
+ * APIs for managing Auth
  */
 class AuthController extends BaseController
 {

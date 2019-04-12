@@ -25,3 +25,9 @@ php artisan db:seed
 
 ## generate optimization
 composer dump-autoload
+
+## generate documentation
+php artisan apidoc:generate
+
+## view documentation
+http://domain.local/docs/index.html
