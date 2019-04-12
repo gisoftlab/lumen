@@ -32,5 +32,17 @@ $router->group(
                 'uses' => 'UserController@get_users'
             ]
         );
+
+        $router->post('users',
+            [
+                'uses' => 'UserController@create_user'
+            ]
+        );
+
+        $router->get('teams',
+            [
+                'uses' => 'TeamController@get_teams'
+            ]
+        );
     }
 );

@@ -1,6 +1,7 @@
 <?php
 namespace App\Http\Controllers;
 
+use App\Models\Role;
 use Validator;
 use App\Models\User;
 use Firebase\JWT\JWT;
@@ -23,6 +24,7 @@ class UserController extends BaseController
      * @var \Illuminate\Http\Request
      */
     private $request;
+
     /**
      * Create a new controller instance.
      *
@@ -31,6 +33,36 @@ class UserController extends BaseController
      */
     public function __construct(Request $request) {
         $this->request = $request;
+    }
+
+    /**
+     * @return \Illuminate\Http\JsonResponse
+     * @throws \Illuminate\Validation\ValidationException
+     */
+    public function create_user() {
+        $this->validate($this->request, [
+            'name'  => 'required',
+            'email'     => 'required|email',
+            'password'  => 'required',
+            'role_id'  => 'required|numeric',
+        ]);
+
+        // Find the user by email
+        $role = Role::where('id', $this->request->input('role_id'))->first();
+        if (!$role) {
+            return response()->json([
+                'error' => 'Role does not exist.'
+            ], 400);
+        }
+
+        $result = app('db')->table('users')->insert([
+            'name' => $this->request->input('name'),
+            'email' => $this->request->input('email'),
+            'password' => bcrypt($this->request->input('password')),
+            'role_id' => $this->request->input('role_id'),
+        ]);
+
+        return response()->json($result);
     }
 
     /**
